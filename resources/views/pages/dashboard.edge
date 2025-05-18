@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vehicle Service Monitoring</title>
+  <link href="/resources/css/output.css" rel="stylesheet">
+</head>
+<body class="bg-gray-50 font-sans">
+  <div class="min-h-screen">
+    <header class="bg-white shadow">
+      <div class="max-w-7xl mx-auto px-4 py-6 sm:px-6 lg:px-8 flex justify-between items-center">
+        <h1 class="text-3xl font-bold text-gray-900">Enfield Service Center</h1>
+        <nav>
+          
+          <a href="/" class="bg-primary text-black px-4 py-2 rounded-md hover:bg-secondary transition">New Service</a>
+        </nav>
+      </div>
+    </header>
+    <main class="max-w-7xl mx-auto px-4 py-6 sm:px-6 lg:px-8">
+      <div class="mb-8">
+        <h2 class="text-2xl font-semibold text-gray-800 mb-4">Service Dashboard</h2>
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+        @each(item in [
+          {label:'Total Vehicles Today', value:'today_count'},
+          {label:'In Progress',value:'today_count'},
+          {label:'Completed',value:'status'}
+        ])
+          <div class="bg-white p-6 rounded-lg shadow">
+            <h3 class="text-gray-500 text-sm font-medium">{{item.label}}</h3>
+            <p class="text-3xl font-bold text-success mt-2">{{state[item.value]}}</p>
+          </div>
+        @end
+        </div>
+        <div class="bg-white shadow rounded-lg overflow-hidden">
+          <div class="px-6 py-4 border-b border-gray-200">
+            <h3 class="text-lg font-medium text-gray-900">Current Services</h3>
+          </div>
+          <div class="overflow-x-auto">
+            <table class="min-w-full divide-y divide-gray-200">
+              <thead class="bg-gray-50">
+                @each(item in ['Vehicle','Owner','Service Type','Status','Progress','Est. Completion'])
+                  <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">{{item}}</th>
+                @end
+                </tr>
+              </thead>
+              <tbody class="bg-white divide-y divide-gray-200">
+                <!-- Rows -->
+                @each(value in values)
+                <tr>
+                  <td class="px-6 py-4 whitespace-nowrap">
+                    <div class="flex items-center">
+                      <div class="flex-shrink-0 h-10 w-10 bg-blue-100 rounded-full flex items-center justify-center">
+                        <span class="text-blue-600 font-medium">RE</span>
+                      </div>
+                      <div class="ml-4">
+                        <div class="text-sm font-medium text-gray-900">{{value.label}}</div>
+                        <div class="text-sm text-gray-500">{{value.value}}</div>
+                      </div>
+                    </div>
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap">
+                    <div class="text-sm text-gray-900">{{value.name}}</div>
+                    <div class="text-sm text-gray-500">{{value.phone_no}}</div>
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap">
+                    <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-100 text-blue-800">
+                      Oil Change
+                    </span>
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap">
+                    <span class="status-badge status-in-progress">Stage1</span>
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap">
+                    <div class="w-full bg-gray-200 rounded-full h-2.5">
+                      <div class="bg-blue-600 h-2.5 rounded-full loading-bar" style="width: 10%"></div>
+                    </div>
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    14:30 
+                  </td>
+                </tr>
+                @end
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+</body>
+</html>
