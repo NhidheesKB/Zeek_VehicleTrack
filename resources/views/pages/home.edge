@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>New Service Entry</title>
+  <link rel="icon" href="/assets/enfield_icon.png">
   <link href="/resources/css//output.css" rel="stylesheet">
   
 </head>
@@ -13,8 +14,7 @@
       <div class="max-w-7xl mx-auto px-4 py-6 sm:px-6 lg:px-8 flex justify-between items-center">
         <h1 class="text-3xl font-bold text-gray-900">Royal Enfield Service Center</h1>
         <nav>
-          
-          <a href="/dashboard" class="bg-primary text-black px-4 py-2 rounded-md">View Dashboard</a>
+          <a href="/dashboard" class="bg-primary text-black px-4 py-2 rounded-md  hover:text-blue-500 hover:underline">View Dashboard</a>
         </nav>
       </div>
     </header>
@@ -33,13 +33,6 @@
                 <div>
                 <h4 class="text-md font-medium text-gray-900 mb-4">Vehicle Information</h4>
                 </div>
-                {{--  <div class="w-35 h-41">
-                    <img src="https://fastly.picsum.photos/id/559/200/300.jpg?hmac=lNV_-XwwjsYJn2cX4Pq7EFx4GA57ekwh_ZoR1dc09H0" />
-                </div>  --}}
-                    <!-- object-fit: fill;
-    /* height: max-content; */
-    width: 142px;
-    height: 165px; -->
                 </div>
               </div>
 
@@ -86,7 +79,6 @@
               </div>
             
               @end
-            
 
               @each(item in ['Phone Number','Email','Address'])
               <div class="sm:col-span-3">

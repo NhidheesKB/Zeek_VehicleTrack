@@ -5,6 +5,7 @@
       const emailInput = document.getElementById('email');
       const emailError = document.getElementById('email-error');
       const passwordError = document.getElementById('password-error');
+      const cred_error=document.getElementById('cred_error');
 
       // Toggle password visibility
       togglePasswordBtn.addEventListener('click', function () {
@@ -26,6 +27,7 @@
       emailInput.addEventListener('input', function () {
         if (this.value && !validateEmail(this.value)) {
           emailError.classList.remove('hidden');
+          cred_error.classList.add('hidden');
         } else {
           emailError.classList.add('hidden');
         }
@@ -34,6 +36,7 @@
       passwordInput.addEventListener('input', function () {
         if (this.value && !validatePassword(this.value)) {
           passwordError.classList.remove('hidden');
+          cred_error.classList.add('hidden');
         } else {
           passwordError.classList.add('hidden');
         }
@@ -56,7 +59,6 @@
           passwordError.classList.remove('hidden');
           valid = false;
         }
-
         // if (!valid) {
         //   e.preventDefault(); // Stop form from submitting
         // }

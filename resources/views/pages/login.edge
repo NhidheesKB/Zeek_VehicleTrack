@@ -17,7 +17,7 @@
   </style>
 </head>
 
-<body class="min-h-screen bg-gray-100">
+<body class="min-h-screen bg-gray-100 overflow-visible">
   <div class="min-h-screen flex">
     <div class="w-full lg:w-1/2 flex items-center justify-center p-8">
       <div class="w-full max-w-md">
@@ -57,19 +57,18 @@
               </div>
               <p id="password-error" class="mt-2 text-sm text-red-600 hidden">Password must be at least 8 characters</p>
             </div>
-
-
+            
             <button type="submit" id="submit-btn"
               class="w-full bg-red-600 text-white py-3 rounded-lg font-semibold hover:bg-red-700 focus:ring-4 focus:ring-red-600 focus:ring-opacity-50 transition-colors disabled:opacity-50 disabled:cursor-not-allowed">
               <span id="submit-text">Sign In</span>
-
             </button>
+            @if(flashMessages.has('error'))
+            <div class="mb-4 text-sm text-red-600 bg-red-100 p-3 rounded text-center" id="cred_error">{{flashMessages.get('error')}}</div>
+            @endif
           </form>
         </div>
       </div>
     </div>
-
-
     <div class="hidden lg:flex lg:w-1/2 bg-cover bg-no-repeat bg-gray-100 bg-center"
       style="background-image: url('/assets/Enfield_logo.png'); background-position-y:40%;">
     </div>
