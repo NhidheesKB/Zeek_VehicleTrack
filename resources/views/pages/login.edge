@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RE Login</title>
+  <link rel="icon" href="/assets/enfield_icon.png">
+  <link rel="stylesheet" href="/resources/css/output.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <meta title="csrf-token" content="{{csrfToken}}" />
+  <style>
+    input[type="password"]::-ms-reveal,
+    input[type="password"]::-ms-clear {
+      display: none;
+    }
+  </style>
+</head>
+
+<body class="min-h-screen bg-gray-100">
+  <div class="min-h-screen flex">
+    <div class="w-full lg:w-1/2 flex items-center justify-center p-8">
+      <div class="w-full max-w-md">
+        <div class="bg-white rounded-2xl shadow-xl p-8">
+          <div class="text-center mb-8">
+            <div class="inline-flex items-center justify-center w-16 h-16 bg-red-100 rounded-full mb-4">
+              <i class="fas fa-sign-in-alt text-red-600 fa-lg"></i>
+            </div>
+            <h2 class="text-2xl font-bold text-gray-800">Welcome Back!</h2>
+            <p class="text-gray-600 mt-2">Please sign in to continue</p>
+          </div>
+          <form id="login-form" method="POST" action="{{route('login')}}">
+
+            <div class="mb-6">
+              <label class="block text-sm font-medium text-gray-700 mb-2">Email Address</label>
+              <div class="relative">
+                {{ csrfField() }}
+                <input type="email" id="email" name="email" required autocomplete="username"
+                  class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-red-600 focus:border-transparent transition-colors"
+                  placeholder="you@example.com" />
+                <i class="fas fa-envelope absolute right-2 top-4 w-6 h-6 text-gray-400"></i>
+              </div>
+              <p id="email-error" class="mt-2 text-sm text-red-600 hidden">Please enter a valid email address</p>
+            </div>
+
+
+            <div class="mb-6">
+              <label class="block text-sm font-medium text-gray-700 mb-2">Password</label>
+              <div class="relative">
+                <input type="password" id="password" name="password" required autocomplete="current-password"
+                  class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-red-600 focus:border-transparent transition-colors"
+                  placeholder="••••••••" />
+                <button type="button" id="toggle-password"
+                  class="absolute right-3 top-3 text-gray-400 hover:text-gray-600">
+                  <i id="password-eye" class="fas fa-eye w-6 h-6"></i>
+                </button>
+              </div>
+              <p id="password-error" class="mt-2 text-sm text-red-600 hidden">Password must be at least 8 characters</p>
+            </div>
+
+
+            <button type="submit" id="submit-btn"
+              class="w-full bg-red-600 text-white py-3 rounded-lg font-semibold hover:bg-red-700 focus:ring-4 focus:ring-red-600 focus:ring-opacity-50 transition-colors disabled:opacity-50 disabled:cursor-not-allowed">
+              <span id="submit-text">Sign In</span>
+
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="hidden lg:flex lg:w-1/2 bg-cover bg-no-repeat bg-gray-100 bg-center"
+      style="background-image: url('/assets/Enfield_logo.png'); background-position-y:40%;">
+    </div>
+  </div>
+  <script src="/resources/js/login.js"></script>
+</body>
+
+</html>

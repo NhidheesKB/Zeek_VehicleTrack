@@ -1,9 +1,18 @@
 import router from '@adonisjs/core/services/router'
-const VehicleDetailsDashboardsController=()=> import('#controllers/vehicle_details_dashboards_controller');
-const VehicleStatusesController=()=> import('#controllers/vehicle_statuses_controller');
+import { middleware } from '#start/kernel'
 
-router.get('/',[VehicleDetailsDashboardsController,'dashboard'])
+const VehicleDetailsDashboardsController = () =>import('#controllers/vehicle_details_dashboards_controller')
+const VehicleStatusesController = () => import('#controllers/vehicle_statuses_controller')
+const ServiceCenterLoginsController = () => import('#controllers/service_center_logins_controller')
 
-router.get('/dashboard',[VehicleStatusesController,'vehicle_status'])
+router
+  .group(() => {
+    router.get('/', [VehicleDetailsDashboardsController, 'dashboard'])
+    router.get('/dashboard', [VehicleStatusesController, 'vehicle_status'])
+  })
+  .use(middleware.auth())
 
-// router.on('/').render('pages/home')
+router.post('/login', [ServiceCenterLoginsController, 'servicecenterlogin']).as('login')
+router.get('/login', async ({ view }) => {
+  return view.render('pages/login')
+})
