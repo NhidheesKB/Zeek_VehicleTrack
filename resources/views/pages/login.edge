@@ -5,8 +5,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>RE Login</title>
-  <link rel="icon" href="/assets/enfield_icon.png">
-  <link href="{{asset('assets/css/output.css')}}" rel="stylesheet">
+  <link rel="icon" href="{{asset('asset/img/favicon.png')}}">
+  <link href="{{asset('asset/css/output.css')}}" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <meta title="csrf-token" content="{{csrfToken}}" />
   <style>
@@ -70,10 +70,10 @@
       </div>
     </div>
     <div class="hidden lg:flex lg:w-1/2 bg-cover bg-no-repeat bg-gray-100 bg-center"
-      style="background-image: url('/assets/Enfield_logo.png'); background-position-y:40%;">
+      style="background-image: url('{{asset('asset/img/re_logo.png')}}'); background-position-y:40%;">
     </div>
   </div>
-  <script src="{{asset('assets/js/login.js')}}"></script>
+  <script src="{{asset('asset/js/login.js')}}"></script>
 </body>
 
 </html>
