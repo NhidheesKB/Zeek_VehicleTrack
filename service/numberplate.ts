@@ -1,6 +1,6 @@
-let lastPlateNumber:any=null
+let lastPlateNumber:string
 const numberplate = {
-  set(plate:any) {
+  set(plate:string) {
     lastPlateNumber = plate
   },
   get() {

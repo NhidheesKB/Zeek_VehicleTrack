@@ -1,6 +1,6 @@
 import env from "#start/env"
 
- const numberdata=(lastePlate:any)=>{
+ const numberdata=(lastePlate:string)=>{
     return{
         task_id:env.get('TASK_ID'),
         group_id:env.get('GROUP_ID'),

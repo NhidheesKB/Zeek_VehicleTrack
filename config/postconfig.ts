@@ -1,6 +1,6 @@
 import env from "#start/env";
 
-const postconfig = (datas:any)=>{
+const postconfig = (datas:object)=>{
     return{
         method: 'post',
         url: env.get('POST_URL'),

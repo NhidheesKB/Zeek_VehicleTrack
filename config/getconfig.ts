@@ -1,5 +1,5 @@
 import env from '#start/env'
-const getconfig = (request_id:any) => {
+const getconfig = (request_id:string) => {
   return {
     method: 'get',
     maxBodyLength: Infinity,

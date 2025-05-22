@@ -1,4 +1,4 @@
-import { Redirect, type HttpContext } from '@adonisjs/core/http'
+import type { HttpContext } from '@adonisjs/core/http'
 import User from '#models/user'
 export default class ServiceCenterLoginsController {
   public async servicecenterlogin({ request, response, auth,session }: HttpContext) {
@@ -11,15 +11,12 @@ export default class ServiceCenterLoginsController {
     try {
       const user = await User.verifyCredentials(email, password)
       if (user) {
-        // console.log(user)
         await auth.use('web').login(user)
         response.redirect('/')
       }
     } catch (error) {
       session.flash('error', 'Wrong Password');
       return response.redirect('/login')
-      // return response.status(404).json({ message: 'Invalid Credentails' })
-      // response.redirect('/login')
     }
   }
 }

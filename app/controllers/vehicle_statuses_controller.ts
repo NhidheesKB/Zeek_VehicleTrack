@@ -1,23 +1,37 @@
 import type { HttpContext } from '@adonisjs/core/http'
-import { DateTime } from 'luxon';
-import db from '@adonisjs/lucid/services/db';
+import { DateTime } from 'luxon'
+import db from '@adonisjs/lucid/services/db'
 import todayvehicle from '../../service/todayvehicles.js'
 export default class VehicleStatusesController {
-    public async vehicle_status({view}:HttpContext){
-        const today=DateTime.local().startOf('day').toSQL();
-        const previous=DateTime.local().plus({ days: 1 }).startOf('day').toSQL()
-        const today_vehicle=await db.from('vehicle_rc_details').whereBetween('created_at',[today,previous]).orderBy('id','desc')
-        const today_collection=today_vehicle
-        // console.log("Today_cooll length",today_collection.length)
-        const today_count=today_collection.length
-        // const today_count=await db.from('vehicle_rc_details').whereBetween('created_at',[today,previous]).count('* as total')
-        const today_data=today_collection.map(todayvehicle);
-        // console.log("Todayvehicle",today_data);
-        // console.log("Todaycount",today_count[0].total);
-        return view.render('pages/dashboard',{
-            values:today_data,
-            today_count:today_count,
-            status:"0"
-        });
-    }
+  public async vehicle_status({ view }: HttpContext) {
+    const today = DateTime.local().startOf('day').toSQL()
+    const previous = DateTime.local().plus({ days: 1 }).startOf('day').toSQL()
+    const joindata = await db
+      .from('user_details')
+      .join('vehicle_entries', 'user_details.id', '=', 'vehicle_entries.user_id')
+      .join(
+        'vehicle_rc_details',
+        'vehicle_rc_details.vehicle_no',
+        '=',
+        'vehicle_entries.vehicle_no'
+      )
+      .whereBetween('vehicle_entries.created_at', [today, previous])
+      .orderBy('vehicle_entries.id', 'desc')
+    const today_data = joindata.map(todayvehicle)
+    let today_count=0,today_pending_count=0,today_completed=0
+    today_data.forEach(data=>{
+       if(data.service_status !== 'Status 4'){
+          today_pending_count++
+       }else{
+          today_completed++
+       }
+       today_count++
+    })
+    return view.render('pages/dashboard', {
+      values: today_data,
+      today_count,
+      today_pending_count,
+      today_completed,
+    })
+  }
 }

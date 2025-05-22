@@ -7,7 +7,6 @@
       const passwordError = document.getElementById('password-error');
       const cred_error=document.getElementById('cred_error');
 
-      // Toggle password visibility
       togglePasswordBtn.addEventListener('click', function () {
         const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
         passwordInput.setAttribute('type', type);
@@ -15,7 +14,6 @@
         passwordEye.classList.toggle('fa-eye-slash');
       });
 
-      // Input validation
       function validateEmail(email) {
         return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
       }
@@ -42,25 +40,23 @@
         }
       });
 
-      // Optional: validate before native form submission
+      
       const loginForm = document.getElementById('login-form');
-      loginForm.addEventListener('submit', function (e) {
-        const email = emailInput.value.trim();
-        const password = passwordInput.value;
+      loginForm.addEventListener('submit', () => {
+          const email = emailInput.value.trim();
+          const password = passwordInput.value;
 
-        let valid = true;
+          let valid = true;
 
-        if (!validateEmail(email)) {
-          emailError.classList.remove('hidden');
-          valid = false;
-        }
+          if (!validateEmail(email)) {
+            emailError.classList.remove('hidden');
+            valid = false;
+          }
 
-        if (!validatePassword(password)) {
-          passwordError.classList.remove('hidden');
-          valid = false;
-        }
-        // if (!valid) {
-        //   e.preventDefault(); // Stop form from submitting
-        // }
-      });
+          if (!validatePassword(password)) {
+            passwordError.classList.remove('hidden');
+            valid = false;
+          }
+
+        });
     });

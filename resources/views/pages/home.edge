@@ -1,20 +1,25 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>New Service Entry</title>
   <link rel="icon" href="/assets/enfield_icon.png">
   <link href="/resources/css//output.css" rel="stylesheet">
-  
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+  <meta title="csrf-token" content="{{csrfToken}}" />
 </head>
+
 <body class="bg-gray-50 font-sans">
-  <div class="min-h-screen" >
+  <div class="min-h-screen">
     <header class="bg-white shadow">
       <div class="max-w-7xl mx-auto px-4 py-6 sm:px-6 lg:px-8 flex justify-between items-center">
         <h1 class="text-3xl font-bold text-gray-900">Royal Enfield Service Center</h1>
         <nav>
-          <a href="/dashboard" class="bg-primary text-black px-4 py-2 rounded-md  hover:text-blue-500 hover:underline">View Dashboard</a>
+          <a href="/dashboard"
+            class="bg-primary text-black px-4 py-2 rounded-md  hover:text-blue-500 hover:underline">View Dashboard</a>
         </nav>
       </div>
     </header>
@@ -25,45 +30,47 @@
           <p class="mt-1 max-w-2xl text-sm text-gray-500">Fill in the details of the vehicle and required service.</p>
         </div>
         <div class="px-4 py-5 sm:p-6">
-          <form>
+          <form method="POST" action="{{route('newvehicle')}}">
+            {{ csrfField() }}
             <div class="grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-6">
-      
+
               <div class="sm:col-span-6">
                 <div class="flex justify-between overflow-hidden rounded-[21%] max-h-[106] h-max object-fill">
-                <div>
-                <h4 class="text-md font-medium text-gray-900 mb-4">Vehicle Information</h4>
-                </div>
+                  <div>
+                    <h4 class="text-md font-medium text-gray-900 mb-4">Vehicle Information</h4>
+                  </div>
                 </div>
               </div>
 
-             @each(item in [
+              @each(item in [
               {label: 'Manufacturer', value: 'bikemanufacturer'},
               {label: 'Model', value: 'bikemodel'},
               {label: 'Color', value: 'bikecolor'},
               {label: 'Detected Number', value: 'bikenumber'},
               ])
               <div class="sm:col-span-2">
-              <label for="{{ item.value }}" class="block text-sm font-medium text-gray-700">{{ item.label }}
-            </label>
-            <div id="{{ item.value }}" name="{{ item.value }}" class="mt-1 block h-10 border-2 w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-primary focus:border-primary sm:text-sm rounded-md">
-              {{state[item.value]??'N/A'}}
-            </div>
-          </div>
-          @end
-          {{--  @else
-          <p class="text-red-600">No data available</p>  --}}
-        
+                <label for="{{ item.value }}" class="block text-sm font-medium text-gray-700">{{ item.label }}
+                </label>
+                <input type="text" id="{{ item.value }}" name="{{ item.value }}"
+                  value="{{ state[item.value] ?? 'N/A' }}" readonly
+                  class="mt-1 block h-10 border-2 w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-primary focus:border-primary sm:text-sm rounded-md">
+              </div>
+              @end
+              {{-- @else
+              <p class="text-red-600">No data available</p> --}}
+
               <div class="sm:col-span-2">
                 <label for="licencenumber" class="block text-sm font-medium  text-gray-700">Licence Number</label>
-                <input id="licencenumber" name="licencenumber" class="mt-1 h-10 pl-3 focus:ring-primary focus:border-primary block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                <input id="licencenumber" name="licencenumber"
+                  class="mt-1 h-10 pl-3  border-2 border-gray-300 block w-full shadow-sm sm:text-sm rounded-md">
               </div>
 
               @each(item in [{label:'Vehicle Insurance Validity',value:'vin_validity'}])
               <div class="sm:col-span-2">
                 <label for="{{item.value}}" class="block text-sm font-medium text-gray-700">{{item.label}}</label>
-                <div name="{{item.value}}" id="{{item.value}}" class="mt-1 h-10 pl-3 border-2 focus:ring-primary focus:border-primary block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
-                  {{state[item.value]??'N/A'}}
-                </div>
+                <input type="text" readonly name="{{item.value}}" id="{{item.value}}"
+                  value="{{state[item.value]??'N/A'}}"
+                  class="mt-1 h-10 pl-3 border-2 focus:ring-primary focus:border-primary block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
               </div>
               @end
 
@@ -73,55 +80,66 @@
               @each(item in[{label:'Owner Name',value:'owner_name'}] )
               <div class="sm:col-span-3">
                 <label for="{{item.label}}" class="block text-sm font-medium  text-gray-700">{{item.label}}</label>
-                <div type="text" name="{{item.label}}" id="{{item.label}}" class="mt-1 pl-3 border-2 border-gray-300 h-10 focus:ring-primary focus:border-primary block w-full shadow-sm sm:text-sm rounded-md">
-                  {{state[item.value]??'N/A'}}
-                </div>
+                <input type="text" readonly name="{{item.value}}" id="{{item.label}}"
+                  value="{{state[item.value]??'N/A'}}"
+                  class="mt-1 pl-3 pt-1.5 border-2 border-gray-300 h-10 focus:ring-primary focus:border-primary block w-full shadow-sm sm:text-sm rounded-md">
               </div>
-            
               @end
 
               @each(item in ['Phone Number','Email','Address'])
               <div class="sm:col-span-3">
-                <label for="owner-info" class="block text-sm font-medium text-gray-700">{{item}}</label>
-                <input type="text" name="owner-info" id="owner-info" class="mt-1 pl-3 h-10 focus:ring-primary focus:border-primary block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                <label for="{{ item }}" class="block text-sm font-medium text-gray-700">{{ item }}</label>
+                <input type="text"
+                  name="{{ item === 'Phone Number' ? 'phone_number' : (item === 'Email' ? 'email' : 'address') }}"
+                  id="{{ item }}"
+                  placeholder="Enter the {{item}}"
+                  class="mt-1 pl-3 h-10 border-2 focus:ring-primary focus:border-primary block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
+                  {{ item !=='Email' ? 'required' : '' }}>
               </div>
-                
               @end
-      
+
+
               <div class="sm:col-span-6 mt-4">
                 <h4 class="text-md font-medium text-gray-900 mb-4">Service Information</h4>
               </div>
 
               <div class="sm:col-span-3">
                 <label for="service-type" class="block text-sm font-medium text-gray-700">Service Type</label>
-                <div class="Service_box" onclick="document.getElementById('service-type').focus()" style="display: flex, flex-warp:warp, align-items: center, gap: 5px,border: 2px solid #ccc, border-radius: 8px,padding: 6px,min-height: 50px">
-                <div id="service_list"></div>
-                <select id="service-type" name="service-type" class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-2 border-gray-300 focus:outline-none focus:ring-primary focus:border-primary sm:text-sm rounded-md">
-                  <option>Select Service</option>
-                  <option>Oil Change</option>
-                  <option>Tire Rotation</option>
-                  <option>Brake Service</option>
-                  <option>Diagnostics</option>  
-                  <option>Transmission Service</option>
-                  <option>Battery Replacement</option>
-                  <option>Other</option>
-                </select>
+                <div class="Service_box" onclick="document.getElementById('service-type').focus()"
+                  style="display: flex, flex-warp:warp, align-items: center, gap: 5px,border: 2px solid #ccc, border-radius: 8px,padding: 6px,min-height: 50px">
+                  <div id="service_list" name="service_list"></div>
+                  <select id="service-type" name="service-type"
+                    class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-2 border-gray-300 focus:outline-none focus:ring-primary focus:border-primary sm:text-sm rounded-md">
+                    <option>Select Service</option>
+                    <option>Oil Change</option>
+                    <option>Tire Rotation</option>
+                    <option>Brake Service</option>
+                    <option>Diagnostics</option>
+                    <option>Transmission Service</option>
+                    <option>Battery Replacement</option>
+                    <option>Other</option>
+                  </select>
                 </div>
               </div>
-
               <div class="sm:col-span-3">
                 <label for="service-date" class="block text-sm font-medium text-gray-700">Service Date</label>
-                <input type="date" name="service-date" id="service-date" class="mt-1 pl-3  border-2 focus:ring-primary focus:border-primary block w-full h-10 shadow-sm sm:text-sm border-gray-300 rounded-md">
+                <input type="date" name="service_date" id="service-date" required
+                  class="mt-1 pl-3  border-2 focus:ring-primary focus:border-primary block w-full h-10 shadow-sm sm:text-sm border-gray-300 rounded-md">
               </div>
 
               <div class="sm:col-span-3">
-                <label for="estimated-completion" class="block text-sm font-medium text-gray-700">Estimated Completion</label>
-                <input type="time" name="estimated-completion" id="estimated-completion" class="mt-1 border-2 focus:ring-primary pl-3 focus:border-primary block w-full h-10 shadow-sm sm:text-sm border-gray-300 rounded-md">
+                <label for="estimated-completion" class="block text-sm font-medium text-gray-700">Estimated
+                  Completion</label>
+                <input type="text" name="estimated_completion" id="time-picker" placeholder="Select Time"
+                  class="mt-1 border-2 focus:ring-primary pl-3 focus:border-primary block w-full h-10 shadow-sm sm:text-sm text-black  rounded-md">
               </div>
 
               <div class="sm:col-span-3">
-                <label for="assigned-technician" class="block text-sm font-medium text-gray-700">Assigned Technician</label>
-                <select id="assigned-technician" name="assigned-technician" class="mt-1 border-2 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-primary focus:border-primary sm:text-sm rounded-md">
+                <label for="assigned-technician" class="block text-sm font-medium text-gray-700">Assigned
+                  Technician</label>
+                <div id="technician_assign" name="assigned_technician"></div>
+                <select id="technician_list"
+                  class="mt-1 border-2 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-primary focus:border-primary sm:text-sm rounded-md">
                   <option>Select Technician</option>
                   <option>Name1</option>
                   <option>Name2</option>
@@ -133,15 +151,18 @@
 
               <div class="sm:col-span-6">
                 <label for="service-notes" class="block text-sm font-medium text-gray-700">Service Notes</label>
-                <textarea id="service-notes" name="service-notes" rows="3" class="mt-1 shadow-sm p-3  border-2 focus:ring-primary focus:border-primary block w-full sm:text-sm border-gray-300 rounded-md"></textarea>
+                <textarea id="service-notes" name="service_notes" rows="3"
+                  class="mt-1 shadow-sm p-3  border-2 focus:ring-primary focus:border-primary block w-full sm:text-sm border-gray-300 rounded-md"></textarea>
               </div>
             </div>
 
             <div class="mt-8 flex justify-end">
-              <button type="button" class="bg-white py-2 px-4 border border-gray-600 rounded-md shadow-sm text-sm font-medium text-gray-700 cursor-pointer focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary">
+              <button type="reset"
+                class="bg-white py-2 px-4 border border-gray-600 rounded-md shadow-sm text-sm font-medium text-gray-700 cursor-pointer focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary">
                 Cancel
               </button>
-              <button type="submit" class="ml-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-blue-500 cursor-pointer">
+              <button type="submit"
+                class="ml-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-blue-500 cursor-pointer">
                 Save Service
               </button>
             </div>
@@ -152,4 +173,5 @@
   </div>
   <script src="/resources/js/app.js"></script>
 </body>
+
 </html>

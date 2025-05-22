@@ -24,8 +24,8 @@
         <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
         @each(item in [
           {label:'Total Vehicles Today', value:'today_count'},
-          {label:'In Progress',value:'today_count'},
-          {label:'Completed',value:'status'}
+          {label:'In Progress',value:'today_pending_count'},
+          {label:'Completed',value:'today_completed'}
         ])
           <div class="bg-white p-6 rounded-lg shadow">
             <h3 class="text-gray-500 text-sm font-medium">{{item.label}}</h3>
@@ -65,20 +65,22 @@
                     <div class="text-sm text-gray-500">{{value.phone_no}}</div>
                   </td>
                   <td class="px-6 py-4 whitespace-nowrap">
+                    @each(service in value.services)
                     <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-100 text-blue-800">
-                      Oil Change
+                      {{service}}
                     </span>
+                    @end
                   </td>
                   <td class="px-6 py-4 whitespace-nowrap">
-                    <span class="status-badge status-in-progress">Stage1</span>
+                    <span class="status-badge status-in-progress">{{value.service_status}}</span>
                   </td>
                   <td class="px-6 py-4 whitespace-nowrap">
                     <div class="w-full bg-gray-200 rounded-full h-2.5">
-                      <div class="bg-blue-600 h-2.5 rounded-full loading-bar" style="width: 10%"></div>
+                      <div class="bg-blue-600 h-2.5 rounded-full loading-bar" style="width: {{value.progress}}%"></div>
                     </div>
                   </td>
                   <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                    14:30 
+                    {{value.estimated_completion}}
                   </td>
                 </tr>
                 @end
