@@ -1,11 +1,12 @@
-const service_list = document.getElementById('service_list')
-const service_type = document.getElementById('service-type')
-const technician_assign = document.getElementById('technician_assign')
-const technician_list = document.getElementById('technician_list')
-const form=document.querySelector('form')
-const serviceset = new Set()
-const technicianset = new Set()
-
+const form = document.querySelector('form')
+const checkbox = document.getElementById('checkbox')
+const csrfToken = document.head.querySelector('meta[title="csrf-token"]').content
+const service_notes = document.getElementById('service-notes')
+const checkbox_label = document.getElementById('checkbox_label')
+const loading = document.getElementById('loading')
+const selectLanguage = document.getElementById('language_select')
+let chunks = []
+let stream, mediarecorder,language
 flatpickr('#time-picker', {
   enableTime: true,
   noCalendar: true,
@@ -13,60 +14,68 @@ flatpickr('#time-picker', {
   time_24hr: false,
 })
 
-function tagfunction(value, id,set) {
-  const tag = document.createElement('span')
-  tag.className = 'tag'
-  tag.textContent = value
-  const removeBtn = document.createElement('button')
-  removeBtn.textContent = 'X'
-  removeBtn.className = 'remove-btn'
-  removeBtn.style.marginLeft = '8px'
-  removeBtn.style.color = 'red'
-  removeBtn.style.border = 'none'
-  removeBtn.style.background = 'transparent'
-  removeBtn.style.cursor = 'pointer'
-  tag.appendChild(removeBtn)
-  const hiddenInput = document.createElement('input')
-  hiddenInput.type = 'hidden'
-  hiddenInput.name = id === service_list ? 'service_list' : 'assigned_technician'
-  hiddenInput.value = value
-  tag.appendChild(hiddenInput)
-  removeBtn.addEventListener('click', () => {
-    set===serviceset?serviceset.delete(value):technicianset.delete(value)
-    tag.remove()
-  })
-  id.appendChild(tag)
+async function recorder() {
+  try {
+    stream = await navigator.mediaDevices.getUserMedia({ audio: true })
+    chunks = []
+    mediarecorder = new MediaRecorder(stream)
+    mediarecorder.start()
+    mediarecorder.ondataavailable = (e) => {
+      if (e.data.size > 0) chunks.push(e.data)
+    }
+    mediarecorder.onstop = (e) => {
+      const audioblob = new Blob(chunks, { type: 'audio/webm' })
+      sendaudio(audioblob)
+    }
+  } catch (error) {
+    checkbox.checked=false
+    alert(`Microphone ${error.message}`)
+  }
+}
+async function sendaudio(audioblob) {
+  try {
+    checkbox_label.style.display = 'none'
+    loading.classList.remove('hidden')
+    const formdata = new FormData()
+    formdata.append('recorder', audioblob)
+    formdata.append('language', language)
+    const response = await fetch('/admin/upload', {
+      method: 'POST',
+      body: formdata,
+      headers: {
+        'X-CSRF-Token': csrfToken,
+      },
+    })
+
+    if (response.ok) {
+      const res = await response.json()
+      service_notes.innerText = res.message
+      loading.classList.add('hidden')
+      checkbox_label.style.removeProperty('display')
+    }
+  } catch (error) {
+    loading.classList.add('hidden')
+    checkbox_label.style.removeProperty('display')
+  }
 }
 
-technician_list.addEventListener('change', () => {
-  const value = technician_list.value
-  if (value != 'Select Technician' && !technicianset.has(value)) {
-    technicianset.add(value)
-    tagfunction(value, technician_assign,technicianset)
-  }
-  technician_list.selectedIndex = 0
-})
-
-service_type.addEventListener('change', () => {
-  const value = service_type.value
-  if (value !== 'Select Service' && !serviceset.has(value)) {
-    serviceset.add(value)
-    tagfunction(value, service_list,serviceset)
-  }
-  service_type.selectedIndex = 0
-})
-
-form.addEventListener('submit',(e)=>{
-  if(!document.getElementById('time-picker').value){
-    e.preventDefault();
-    return alert("Please Select Estimation Time")
-  }
-  if(service_list.childElementCount<=0 || technician_assign.childElementCount<=0){
-    e.preventDefault();
-    return alert("Select atleast one Service and Technician")
+form.addEventListener('submit', (e) => {
+  if (!document.getElementById('time-picker').value) {
+    e.preventDefault()
+    return alert('Please Select Estimation Time')
   }
 })
-
-form.addEventListener("reset",()=>{
-  location.reload();
+form.addEventListener('reset', () => {
+  location.reload()
+})
+checkbox.addEventListener('click', () => {
+  language=selectLanguage.value
+  if (language === 'Choose a language') {
+    checkbox.checked = false
+    return alert('Please Select the language')
+  } else if (checkbox.checked) {
+    recorder()
+  } else if (mediarecorder && mediarecorder.state != 'inactive') {
+    mediarecorder.stop()
+  }
 })

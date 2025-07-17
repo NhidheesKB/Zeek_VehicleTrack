@@ -1,7 +1,7 @@
 import router from "@adonisjs/core/services/router";
-const ServicedashboardsController =()=> import('#controllers/servicedashboards_controller');
-const VehicleStatusUpdatesController=()=> import('#controllers/vehicle_status_updates_controller')
+const AutomaticEntriesController =()=> import('#controllers/service_center_controllers/automaticEntriesController')
+const VehicleStatusUpdatesController=()=> import('#controllers/service_center_controllers/vehicleStatusUpdatesController')
 router.group(()=>{
-    router.post('/update-esp1',[ServicedashboardsController,'platenum'])
+    router.post('/update-esp1',[AutomaticEntriesController,'platenum'])
     router.post('/update',[VehicleStatusUpdatesController,'vehiclestatus'])
 }).prefix('/api');

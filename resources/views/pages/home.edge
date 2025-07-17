@@ -1,16 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>New Service Entry</title>
-  <link rel="icon" href="/asset/img/favicon.png">
-  <link href="/asset/css/output.css" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
-  <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
-  <meta title="csrf-token" content="{{csrfToken}}" />
-</head>
+@layout.app({title:"New Service Entry"})
 
 <body class="bg-gray-50 font-sans">
   <div class="min-h-screen">
@@ -18,7 +6,7 @@
       <div class="max-w-7xl mx-auto px-4 py-6 sm:px-6 lg:px-8 flex justify-between items-center">
         <h1 class="text-3xl font-bold text-gray-900">Royal Enfield Service Center</h1>
         <nav>
-          <a href="/dashboard"
+          <a href="/admin/dashboard"
             class="bg-primary text-black px-4 py-2 rounded-md  hover:text-blue-500 hover:underline">View Dashboard</a>
         </nav>
       </div>
@@ -30,7 +18,7 @@
           <p class="mt-1 max-w-2xl text-sm text-gray-500">Fill in the details of the vehicle and required service.</p>
         </div>
         <div class="px-4 py-5 sm:p-6">
-          <form method="POST" action="{{route('newvehicle')}}">
+          <form method="POST" action="{{route}}">
             {{ csrfField() }}
             <div class="grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-6">
 
@@ -46,31 +34,23 @@
               {label: 'Manufacturer', value: 'bikemanufacturer'},
               {label: 'Model', value: 'bikemodel'},
               {label: 'Color', value: 'bikecolor'},
-              {label: 'Detected Number', value: 'bikenumber'},
+              {label: 'RC Number', value: 'bikenumber'},
               ])
               <div class="sm:col-span-2">
                 <label for="{{ item.value }}" class="block text-sm font-medium text-gray-700">{{ item.label }}
                 </label>
-                <input type="text" id="{{ item.value }}" name="{{ item.value }}"
-                  value="{{ state[item.value] ?? 'N/A' }}" readonly
-                  class="mt-1 block h-10 border-2 w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-primary focus:border-primary sm:text-sm rounded-md">
+                <input type="text" id="{{ item.value }}" name="{{ item.value }}" value="{{ state[item.value] ?? '' }}"
+                  placeholder="Enter the vehicle {{item.label}}" required
+                  class="mt-1 block h-10 border-2 w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:border-blue-500 focus:ring-blue-500 sm:text-sm rounded-md">
               </div>
               @end
-              {{-- @else
-              <p class="text-red-600">No data available</p> --}}
-
-              <div class="sm:col-span-2">
-                <label for="licencenumber" class="block text-sm font-medium  text-gray-700">Licence Number</label>
-                <input id="licencenumber" name="licencenumber"
-                  class="mt-1 h-10 pl-3  border-2 border-gray-300 block w-full shadow-sm sm:text-sm rounded-md">
-              </div>
 
               @each(item in [{label:'Vehicle Insurance Validity',value:'vin_validity'}])
               <div class="sm:col-span-2">
                 <label for="{{item.value}}" class="block text-sm font-medium text-gray-700">{{item.label}}</label>
-                <input type="text" readonly name="{{item.value}}" id="{{item.value}}"
-                  value="{{state[item.value]??'N/A'}}"
-                  class="mt-1 h-10 pl-3 border-2 focus:ring-primary focus:border-primary block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                <input type="text" placeholder="Enter the Vehicle Insurance Validity" name="{{item.value}}"
+                  id="{{item.value}}" value="{{state[item.value]??''}}" required
+                  class="mt-1 h-10 pl-3 border-2 focus:outline-none focus:border-blue-500 focus:ring-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
               </div>
               @end
 
@@ -80,37 +60,43 @@
               @each(item in[{label:'Owner Name',value:'owner_name'}] )
               <div class="sm:col-span-3">
                 <label for="{{item.label}}" class="block text-sm font-medium  text-gray-700">{{item.label}}</label>
-                <input type="text" readonly name="{{item.value}}" id="{{item.label}}"
-                  value="{{state[item.value]??'N/A'}}"
-                  class="mt-1 pl-3 pt-1.5 border-2 border-gray-300 h-10 focus:ring-primary focus:border-primary block w-full shadow-sm sm:text-sm rounded-md">
+                <input type="text" name="{{item.value}}" id="{{item.label}}" value="{{state[item.value]??''}}"
+                  placeholder="Enter the {{item.label}}" required
+                  class="mt-1 pl-3  border-2 border-gray-300 h-10 focus:outline-2  focus:outline-none focus:border-blue-500 focus:ring-blue-500 block w-full shadow-sm sm:text-sm rounded-md">
               </div>
               @end
 
               @each(item in ['Phone Number','Email','Address'])
               <div class="sm:col-span-3">
                 <label for="{{ item }}" class="block text-sm font-medium text-gray-700">{{ item }}</label>
-                <input type="text"
+                <input type="{{item==='Phone Number'? 'number':'text'}}"
                   name="{{ item === 'Phone Number' ? 'phone_number' : (item === 'Email' ? 'email' : 'address') }}"
-                  id="{{ item }}"
-                  placeholder="Enter the {{item}}"
-                  class="mt-1 pl-3 h-10 border-2 focus:ring-primary focus:border-primary block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
+                  id="{{ item }}" placeholder="Enter the {{item}}" {{item==='Email' ?'':'required'}}
+                  class="mt-1 pl-3 h-10 border-2 focus:outline-none focus:border-blue-500 focus:ring-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
                   {{ item !=='Email' ? 'required' : '' }}>
               </div>
               @end
-
-
               <div class="sm:col-span-6 mt-4">
                 <h4 class="text-md font-medium text-gray-900 mb-4">Service Information</h4>
               </div>
 
               <div class="sm:col-span-3">
                 <label for="service-type" class="block text-sm font-medium text-gray-700">Service Type</label>
-                <div class="Service_box" onclick="document.getElementById('service-type').focus()"
-                  style="display: flex, flex-warp:warp, align-items: center, gap: 5px,border: 2px solid #ccc, border-radius: 8px,padding: 6px,min-height: 50px">
-                  <div id="service_list" name="service_list"></div>
-                  <select id="service-type" name="service-type"
-                    class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-2 border-gray-300 focus:outline-none focus:ring-primary focus:border-primary sm:text-sm rounded-md">
-                    <option>Select Service</option>
+                <div class="Service_box"
+                  style="display: flex, flex-warp:warp, align-items: center, gap: 5px,border: 2px solid #ccc, border-radius: 8px,padding: 6px,min-height: 50px ">
+
+                  <select multiple name="services" data-hs-select='{
+  "placeholder": "Select option...",
+  "dropdownClasses": "mt-2 z-50 w-full max-h-72 p-1 space-y-0.5 bg-white border border-gray-200 rounded-lg overflow-hidden overflow-y-auto [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-track]:bg-gray-100 [&::-webkit-scrollbar-thumb]:bg-gray-300",
+  "optionClasses": "py-2 px-4 w-full text-sm text-gray-800 cursor-pointer hover:bg-gray-100 rounded-lg focus:outline-hidden focus:bg-gray-100 hs-select-disabled:pointer-events-none hs-select-disabled:opacity-50",
+  "mode": "tags",
+  "wrapperClasses": "focus:outline-none focus:border-blue-500 focus:ring-blue-500 border-2 border-gray-300 relative ps-0.5 pe-9 min-h-11.5 flex items-center flex-wrap text-nowrap w-full border border-gray-200 rounded-lg text-start text-sm",
+  "tagsItemTemplate": "<div class=\"flex flex-nowrap items-center relative z-10 bg-white border border-gray-200 rounded-full p-1 m-1\"><div class=\"size-6 me-1\" data-icon></div><div class=\"whitespace-nowrap text-gray-800\" data-title></div><div class=\"inline-flex shrink-0 justify-center items-center size-5 ms-2 rounded-full text-gray-800 bg-gray-200 hover:bg-gray-300 focus:outline-hidden focus:ring-2 focus:ring-gray-400 text-sm cursor-pointer\" data-remove><svg class=\"shrink-0 size-3\" xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M18 6 6 18\"/><path d=\"m6 6 12 12\"/></svg></div></div>",
+  "tagsInputId": "hs-tags-input",
+  "tagsInputClasses": "py-2.5 sm:py-3 px-2 min-w-20 rounded-lg order-1 border-transparent focus:ring-0 sm:text-sm outline-hidden",
+  "optionTemplate": "<div class=\"flex items-center\"><div class=\"size-8 me-2\" data-icon></div><div><div class=\"text-sm font-semibold text-gray-800\" data-title></div><div class=\"text-xs text-gray-500\" data-description></div></div><div class=\"ms-auto\"><span class=\"hidden hs-selected:block\"><svg class=\"shrink-0 size-4 text-blue-600\" xmlns=\"http://www.w3.org/2000/svg\" width=\"16\" height=\"16\" fill=\"currentColor\" viewBox=\"0 0 16 16\"><path d=\"M12.736 3.97a.733.733 0 0 1 1.047 0c.286.289.29.756.01 1.05L7.88 12.01a.733.733 0 0 1-1.065.02L3.217 8.384a.757.757 0 0 1 0-1.06.733.733 0 0 1 1.047 0l3.052 3.093 5.4-6.425a.247.247 0 0 1 .02-.022Z\"/></svg></span></div></div>",
+  "extraMarkup": "<div class=\"absolute top-1/2 end-3 -translate-y-1/2\"><svg class=\"shrink-0 size-3.5 text-gray-500\" xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"m7 15 5 5 5-5\"/><path d=\"m7 9 5-5 5 5\"/></svg></div>"
+}' class="hidden">
                     <option>Oil Change</option>
                     <option>Tire Rotation</option>
                     <option>Brake Service</option>
@@ -118,29 +104,37 @@
                     <option>Transmission Service</option>
                     <option>Battery Replacement</option>
                     <option>Other</option>
+
                   </select>
                 </div>
               </div>
-              <div class="sm:col-span-3">
+              {{--  <div class="sm:col-span-3">
                 <label for="service-date" class="block text-sm font-medium text-gray-700">Service Date</label>
                 <input type="date" name="service_date" id="service-date" required
-                  class="mt-1 pl-3  border-2 focus:ring-primary focus:border-primary block w-full h-10 shadow-sm sm:text-sm border-gray-300 rounded-md">
-              </div>
+                  class="mt-1 pl-3  border-2  block w-full h-10 shadow-sm sm:text-sm border-gray-300 rounded-md">
+              </div>  --}}
 
               <div class="sm:col-span-3">
                 <label for="estimated-completion" class="block text-sm font-medium text-gray-700">Estimated
                   Completion</label>
                 <input type="text" name="estimated_completion" id="time-picker" placeholder="Select Time"
-                  class="mt-1 border-2 focus:ring-primary pl-3 focus:border-primary block w-full h-10 shadow-sm sm:text-sm text-black  rounded-md">
+                  class="mt-1 border-2 pl-3  block w-full h-10 shadow-sm sm:text-sm text-black  border-gray-300  rounded-md">
               </div>
 
               <div class="sm:col-span-3">
                 <label for="assigned-technician" class="block text-sm font-medium text-gray-700">Assigned
                   Technician</label>
-                <div id="technician_assign" name="assigned_technician"></div>
-                <select id="technician_list"
-                  class="mt-1 border-2 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-primary focus:border-primary sm:text-sm rounded-md">
-                  <option>Select Technician</option>
+
+                <select name="assigned_technician" multiple data-hs-select='{
+  "placeholder": "Select Technician",
+  "toggleTag": "<button type=\"button\" aria-expanded=\"false\" class=\"border-2 border-gray-300\"></button>",
+  "toggleClasses": "hs-select-disabled:pointer-events-none hs-select-disabled:opacity-50 relative py-3 ps-4 pe-9 flex gap-x-2 text-nowrap w-full cursor-pointer bg-white border border-gray-200 rounded-lg text-start text-sm focus:outline-none focus:ring-2 focus:ring-blue-500",
+  "dropdownClasses": "mt-2 z-50 w-full max-h-72 p-1 space-y-0.5 bg-white border border-gray-200 rounded-lg overflow-hidden overflow-y-auto [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-track]:bg-gray-100 [&::-webkit-scrollbar-thumb]:bg-gray-300",
+  "optionClasses": "py-2 px-4 w-full text-sm text-gray-800 cursor-pointer hover:bg-gray-100 rounded-lg focus:outline-none focus:bg-gray-100",
+  "optionTemplate": "<div class=\"flex justify-between items-center w-full\"><span data-title></span><span class=\"hidden hs-selected:block\"><svg class=\"shrink-0 size-3.5 text-blue-600\" xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><polyline points=\"20 6 9 17 4 12\"/></svg></span></div>",
+  "extraMarkup": "<div class=\"absolute top-1/2 end-3 -translate-y-1/2\"><svg class=\"shrink-0 size-3.5 text-gray-500\" xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"m7 15 5 5 5-5\"/><path d=\"m7 9 5-5 5 5\"/></svg></div>"
+}' class="hidden">
+
                   <option>Name1</option>
                   <option>Name2</option>
                   <option>Name3</option>
@@ -148,15 +142,50 @@
                   <option>Name5</option>
                 </select>
               </div>
-
               <div class="sm:col-span-6">
-                <label for="service-notes" class="block text-sm font-medium text-gray-700">Service Notes</label>
-                <textarea id="service-notes" name="service_notes" rows="3"
-                  class="mt-1 shadow-sm p-3  border-2 focus:ring-primary focus:border-primary block w-full sm:text-sm border-gray-300 rounded-md"></textarea>
+                <label for="service-notes" class="block text-sm font-medium relative top-6 text-gray-700">Service Notes</label>
+                  <select id="language_select"
+                    class="block px-2 h-8 relative start-21  bottom-0 w-40 text-sm text-gray-900 font-medium border-0  bg-transparent  border-gray-300  focus:outline-none focus:ring-0 focus:border-gray-400 ">
+                    <option selected>Choose a language</option>
+                    @each(item in
+                    [{label:'English',value:'en'},{label:'Tamil',value:'ta'},{label:'Hindi',value:'hi'},{label:'Malayalam',value:'ml'},{label:'Kannada',value:'kn'},{label:'Telugu',value:'te'}])
+                    <option value="{{item.value}}">{{item.label}}</option>
+                    @end
+                  </select>
+                <div class="relative mt-0">
+                  <textarea id="service-notes" name="service_notes" rows="3"
+                    class="shadow-sm p-3 pr-12 border-2 block w-full sm:text-sm border-gray-300 rounded-md resize-none"></textarea>
+                  <input type="checkbox" id="checkbox" class="hidden">
+                  <label for="checkbox" id="checkbox_label"
+                    class="switch absolute bottom-23 right-3 sm:bottom-20 sm:left-3 md:bottom-20 md:left-7 lg:bottom-20 lg:left-13 xl:bottom-20 xl:left-19 2xl:bottom-20 2xl:left-25">
+                    <div class="mic-on">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor"
+                        class="bi bi-mic-fill" viewBox="0 0 16 16">
+                        <path d="M5 3a3 3 0 0 1 6 0v5a3 3 0 0 1-6 0V3z"></path>
+                        <path
+                          d="M3.5 6.5A.5.5 0 0 1 4 7v1a4 4 0 0 0 8 0V7a.5.5 0 0 1 1 0v1a5 5 0 0 1-4.5 4.975V15h3a.5.5 0 0 1 0 1h-7a.5.5 0 0 1 0-1h3v-2.025A5 5 0 0 1 3 8V7a.5.5 0 0 1 .5-.5z">
+                        </path>
+                      </svg>
+                    </div>
+                    <div class="mic-off">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor"
+                        class="bi bi-mic-mute-fill" viewBox="0 0 16 16">
+                        <path
+                          d="M13 8c0 .564-.094 1.107-.266 1.613l-.814-.814A4.02 4.02 0 0 0 12 8V7a.5.5 0 0 1 1 0v1zm-5 4c.818 0 1.578-.245 2.212-.667l.718.719a4.973 4.973 0 0 1-2.43.923V15h3a.5.5 0 0 1 0 1h-7a.5.5 0 0 1 0-1h3v-2.025A5 5 0 0 1 3 8V7a.5.5 0 0 1 1 0v1a4 4 0 0 0 4 4zm3-9v4.879L5.158 2.037A3.001 3.001 0 0 1 11 3z">
+                        </path>
+                        <path
+                          d="M9.486 10.607 5 6.12V8a3 3 0 0 0 4.486 2.607zm-7.84-9.253 12 12 .708-.708-12-12-.708.708z">
+                        </path>
+                      </svg>
+                    </div>
+                  </label>
+                  <div id="loading"
+                    class="animate-spin hidden absolute bottom-14 end-3 size-6 border-3 border-current border-t-transparent text-blue-600 rounded-full dark:text-blue-500">
+                  </div>
+                </div>
               </div>
             </div>
-
-            <div class="mt-8 flex justify-end">
+            <div class="mt-5 flex justify-end ">
               <button type="reset"
                 class="bg-white py-2 px-4 border border-gray-600 rounded-md shadow-sm text-sm font-medium text-gray-700 cursor-pointer focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary">
                 Cancel
@@ -171,7 +200,4 @@
       </div>
     </main>
   </div>
-  <script src="/asset/js/app.js"></script>
-</body>
-
-</html>
+  @end

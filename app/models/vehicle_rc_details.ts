@@ -1,5 +1,5 @@
 import { DateTime } from 'luxon'
-import { BaseModel, column } from '@adonisjs/lucid/orm'
+import { BaseModel,column } from '@adonisjs/lucid/orm'
 export default class VehicleDetail extends BaseModel {
   public static table = 'vehicle_rc_details'
 
@@ -8,7 +8,6 @@ export default class VehicleDetail extends BaseModel {
 
   @column()
   declare vehicle_no: string
-
   @column()
   declare owner_name: string
 
@@ -31,8 +30,7 @@ export default class VehicleDetail extends BaseModel {
   declare puc_number_upto: string
 
   @column()
-  declare api_details: any
-
+  declare api_details: Record<string,any>
 
   @column.dateTime({ autoCreate: true })
   declare createdAt: DateTime

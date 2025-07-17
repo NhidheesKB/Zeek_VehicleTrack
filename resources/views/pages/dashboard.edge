@@ -1,20 +1,24 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Vehicle Service Monitoring</title>
-  <link rel="icon" href="/asset/img/favicon.png">
-  <link href="/asset/css/output.css" rel="stylesheet">
-</head>
+@layout.app({title:"Vehicle Service Monitoring"})
 <body class="bg-gray-50 font-sans">
   <div class="min-h-screen">
     <header class="bg-white shadow">
       <div class="max-w-7xl mx-auto px-4 py-6 sm:px-6 lg:px-8 flex justify-between items-center">
         <h1 class="text-3xl font-bold text-gray-900">Enfield Service Center</h1>
-        <nav>
-          
-          <a href="/" class="bg-primary text-black px-4 py-2 rounded-md hover:underline hover:text-blue-500">New Service</a>
+        <nav class="flex items-center space-x-4">
+          <a href="/admin" class="bg-primary text-black px-4 py-2 rounded-md hover:underline hover:text-blue-500">New
+            Service</a>
+          <form action="{{route('logout')}}" method="POST" class="ml-4">
+            {{ csrfField() }}
+            <button type="submit"
+              class="text-gray-700 hover:text-red-600 px-3 py-2 rounded-md text-sm font-medium flex items-center">
+              <svg xmlns="http://www.w3.org/2 000/svg" class="h-5 w-5 mr-1" fill="none" viewBox="0 0 24 24"
+                stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+              </svg>
+              Logout
+            </button>
+          </form>
         </nav>
       </div>
     </header>
@@ -22,16 +26,16 @@
       <div class="mb-8">
         <h2 class="text-2xl font-semibold text-gray-800 mb-4">Service Dashboard</h2>
         <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
-        @each(item in [
+          @each(item in [
           {label:'Total Vehicles Today', value:'today_count'},
           {label:'In Progress',value:'today_pending_count'},
           {label:'Completed',value:'today_completed'}
-        ])
+          ])
           <div class="bg-white p-6 rounded-lg shadow">
             <h3 class="text-gray-500 text-sm font-medium">{{item.label}}</h3>
             <p class="text-3xl font-bold text-success mt-2">{{state[item.value]}}</p>
           </div>
-        @end
+          @end
         </div>
         <div class="bg-white shadow rounded-lg overflow-hidden">
           <div class="px-6 py-4 border-b border-gray-200">
@@ -40,49 +44,66 @@
           <div class="overflow-x-auto">
             <table class="min-w-full divide-y divide-gray-200">
               <thead class="bg-gray-50">
-                @each(item in ['Vehicle','Owner','Service Type','Status','Progress','Est. Completion'])
-                  <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">{{item}}</th>
+                @each(item in ['Vehicle','Owner','Service Type','Status','Progress','Est. Completion','Edit'])
+                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  {{item}}</th>
                 @end
                 </tr>
               </thead>
               <tbody class="bg-white divide-y divide-gray-200">
                 <!-- Rows -->
                 @each(value in values)
-                <tr>
-                  <td class="px-6 py-4 whitespace-nowrap">
-                    <div class="flex items-center">
-                      <div class="flex-shrink-0 h-10 w-10 bg-blue-100 rounded-full flex items-center justify-center">
-                        <span class="text-blue-600 font-medium">RE</span>
+                <form method="POST" action="{{route('admin.addvehicledetails')}}">
+                  {{ csrfField() }}
+                  <tr>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                      <div class="flex items-center">
+                        <div class="flex-shrink-0 h-10 w-10 bg-blue-100 rounded-full flex items-center justify-center">
+                          <span class="text-blue-600 font-medium">RE</span>
+                        </div>
+                        <div class="ml-4">
+                          <input type="hidden" name="model" value="{{value.label}}">
+                          <input type="hidden" name="vehicle_no" value="{{value.value}}">
+                          <div class="text-sm font-medium text-gray-700 ">{{value.label}}</div>
+                          <div class="text-sm text-gray-500">{{value.value}}</div>
+                        </div>
                       </div>
-                      <div class="ml-4">
-                        <div class="text-sm font-medium text-gray-900">{{value.label}}</div>
-                        <div class="text-sm text-gray-500">{{value.value}}</div>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                      <input type="hidden" name="owner_name" value="{{value.name}}">
+                      <input type="hidden" name="phone_no" value="{{value.phone_no}}">
+                      <div class="text-sm text-gray-900">{{value.name}}</div>
+                      <div class="text-sm text-gray-500">{{value.phone_no||null}}</div>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                      @each(service in value.services)
+                      <span
+                        class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-100 text-blue-800">
+                        {{service||null}}
+                      </span>
+                      @end
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                      <span class="status-badge {{value.service_status_style}}">{{value.service_status||null}}</span>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                      <div class="w-full bg-gray-200 rounded-full h-2.5">
+                        <div class="bg-blue-600 h-2.5 rounded-full loading-bar" style="width: {{value.progress}}%">
+                        </div>
                       </div>
-                    </div>
-                  </td>
-                  <td class="px-6 py-4 whitespace-nowrap">
-                    <div class="text-sm text-gray-900">{{value.name}}</div>
-                    <div class="text-sm text-gray-500">{{value.phone_no}}</div>
-                  </td>
-                  <td class="px-6 py-4 whitespace-nowrap">
-                    @each(service in value.services)
-                    <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-100 text-blue-800">
-                      {{service}}
-                    </span>
-                    @end
-                  </td>
-                  <td class="px-6 py-4 whitespace-nowrap">
-                    <span class="status-badge status-in-progress">{{value.service_status}}</span>
-                  </td>
-                  <td class="px-6 py-4 whitespace-nowrap">
-                    <div class="w-full bg-gray-200 rounded-full h-2.5">
-                      <div class="bg-blue-600 h-2.5 rounded-full loading-bar" style="width: {{value.progress}}%"></div>
-                    </div>
-                  </td>
-                  <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                    {{value.estimated_completion}}
-                  </td>
-                </tr>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                      <input type="hidden" name="estimated_completion" value="{{value.estimated_completion}}">
+                      {{value.estimated_completion||null}}
+                    </td>
+                    <td>
+                      <button type="submit"
+                        class="bg-transparent max-w-fit hover:bg-blue-500  text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded">
+                        Add
+                      </button>
+                    </td>
+                  </tr>
+                </form>
                 @end
               </tbody>
             </table>
@@ -91,5 +112,4 @@
       </div>
     </main>
   </div>
-</body>
-</html>
+@end

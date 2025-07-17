@@ -11,11 +11,15 @@ const authConfig = defineConfig({
         model: () => import('#models/user')
       }),
     }),
+    customer: sessionGuard({
+      useRememberMeTokens:false,
+      provider:sessionUserProvider({
+        model:() =>import ('#models/user_detail')
+      }),
+    }),
   },
 })
-
 export default authConfig
-
 /**
  * Inferring types from the configured auth
  * guards.

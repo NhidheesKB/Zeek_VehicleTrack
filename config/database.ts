@@ -22,7 +22,6 @@ const dbConfig = defineConfig({
         paths: ['database/migrations'],
 
       },
-      
     },
   },
 })
