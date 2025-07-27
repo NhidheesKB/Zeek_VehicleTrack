@@ -1,179 +1,188 @@
 @layout.app({title:'RE Vehicle Status'})
+@pushOnceTo('style')
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+@end
 
 <body class="bg-gray-50">
-    <header class="bg-white shadow-sm">
-        <div class="max-w-7xl mx-auto px-4 py-4 sm:px-6 lg:px-8 flex justify-between items-center">
-            <div class="flex items-center">
-                <i class="fas fa-motorcycle text-red-600 text-2xl mr-3"></i>
-                <h1 class="text-xl font-bold text-gray-800">Royal Enfield Service Tracker</h1>
-            </div>
-            @each (vehicle in vehicles)
-            <div class="flex items-center space-x-4">
-                <span class="text-gray-600">Welcome, <span class="font-medium">{{vehicle.owner_name}}</span></span>
-            </div>
-        </div>
-    </header>
-    <main class="max-w-7xl mx-auto px-4 py-6 sm:px-6 lg:px-8">
+  <header class="bg-white shadow-sm">
+    <div class="max-w-7xl mx-auto px-4 py-4 sm:px-6 lg:px-8 flex justify-between items-center">
+      <div class="flex items-center">
+        <i class="fas fa-motorcycle text-red-600 text-2xl mr-3"></i>
+        <h1 class="text-xl font-bold text-gray-800">Royal Enfield Service Tracker</h1>
+      </div>
+      @each (vehicle in vehicles)
+      <div class="flex items-center space-x-4">
+        <span class="text-gray-600">Welcome, <span class="font-medium">{{vehicle.owner_name}}</span></span>
+      </div>
+    </div>
+  </header>
+  <main class="max-w-7xl mx-auto px-4 py-6 sm:px-6 lg:px-8">
 
-        <div class="bg-white rounded-xl shadow-md overflow-hidden mb-8">
-            <div class="p-6">
-                <div class="flex flex-col md:flex-row md:items-center md:justify-between">
-                    <div>
-                        <h2 class="text-2xl font-bold text-gray-800">My Vehicle</h2>
-                        <div class="mt-2 grid grid-cols-2 gap-4">
-                            @each(item in [
-                            {label:'Model',value:'model'},
-                            {label:'Registration',value:'register_no'},
-                            {label:'Owner Name',value:'owner_name'},
-                            {label:'Owner Phone Number',value:'owner_number'}
-                            ])
-                            <div>
-                                <p class="text-sm text-gray-500">{{item.label}}</p>
-                                <p class="font-medium">{{vehicle[item.value]}}</p>
-                            </div>
-                            @end
-                        </div>
-                    </div>
-                </div>
+    <div class="bg-white rounded-xl shadow-md overflow-hidden mb-8">
+      <div class="p-6">
+        <div class="flex flex-col md:flex-row md:items-center md:justify-between">
+          <div>
+            <h2 class="text-2xl font-bold text-gray-800">My Vehicle</h2>
+            <div class="mt-2 grid grid-cols-2 gap-4">
+              @each(item in [
+              {label:'Model',value:'model'},
+              {label:'Registration',value:'register_no'},
+              {label:'Owner Name',value:'owner_name'},
+              {label:'Owner Phone Number',value:'owner_number'}
+              ])
+              <div>
+                <p class="text-sm text-gray-500">{{item.label}}</p>
+                <p class="font-medium">{{vehicle[item.value]}}</p>
+              </div>
+              @end
             </div>
+          </div>
         </div>
-        </div>
-        <div class="bg-white rounded-xl shadow-md overflow-hidden mb-8">
-            <div class="px-6 py-4 border-b border-gray-200">
-                <h2 class="text-lg font-medium text-gray-800">Service Status</h2>
-                 <time>{{vehicle.arrived_time+" "}}(IST)</time>
+      </div>
+    </div>
+    </div>
+    <div class="bg-white rounded-xl shadow-md overflow-hidden mb-8">
+      <div class="px-6 py-4 border-b border-gray-200">
+        <h2 class="text-lg font-medium text-gray-800">Service Status</h2>
+        <time>{{vehicle.arrived_time+" "}}(IST)</time>
 
-            </div>
-            <div class="p-6">
-                <div class="flow-root">
-                    <ul class="-mb-8">
-                        @each(item in [
-                        {label:'Vehicle Received',value:'Your vehicle was received at the service center'},
-                        {label:'Initial Inspection',value:'Technician completed initial diagnostics'},
-                        {label:'Service in Progress',value:'Your vehicle is currently being serviced'},
-                        {label:'Ready For Pickup',value:'Your vehicle will be ready for pickup'}
-                        ])
-                        <li class="relative pb-8">
-                            <div class="relative flex items-start space-x-3">
-                                <div>
-                                    <div class="flex items-center justify-center h-10 w-10 rounded-full border-2 
+      </div>
+      <div class="p-6">
+        <div class="flow-root">
+          <ul class="-mb-8">
+            @each(item in [
+            {label:'Vehicle Received',value:'Your vehicle was received at the service center'},
+            {label:'Initial Inspection',value:'Technician completed initial diagnostics'},
+            {label:'Service in Progress',value:'Your vehicle is currently being serviced'},
+            {label:'Ready For Pickup',value:'Your vehicle will be ready for pickup'}
+            ])
+            <li class="relative pb-8">
+              <div class="relative flex items-start space-x-3">
+                <div>
+                  <div class="flex items-center justify-center h-10 w-10 rounded-full border-2
                                         @if(checkbox.includes(item.label)&&item.label)
                                         border-green-300  text-green-500 bg-green-100
                                         @elseif(item.label==='Service in Progress'&& !checkbox.includes('Service in Progress')&& vehicle.service_status==='Status 2')
                                             bg-blue-100 border-blue-300
                                         @else
                                         bg-gray-100 border-gray-300
-                                        @endif 
+                                        @endif
                                         ">
-                                        <i class="
+                    <i class="
                                         @if(checkbox.includes(item.label) && item.label)
                                         fas fa-check
                                         @elseif(item.label === 'Service in Progress' && !checkbox.includes('Service in Progress')&& vehicle.service_status==='Status 2')
-                                        fas fa-cog animate-spin text-blue-500 
+                                        fas fa-cog animate-spin text-blue-500
                                         @else
                                         fas fa-ellipsis-h
                                         @endif
                                         "></i>
-                                    </div>
-                                </div>
-                                <div class="min-w-0 flex-1 pt-2">
-                                    <div class="flex justify-between">
-                                        <div>
-                                            <p class="text-sm font-medium text-gray-800">{{item.label}}</p>
-                                            <p class="text-sm text-gray-500">{{item.value}} </p>
-                                        </div>
-                                        @if(item.label==='Vehicle Received')
-                                        <div class="text-right text-sm whitespace-nowrap text-gray-500">
-                                        </div>
-                                        @end
-                                    </div>
-                                </div>
-                            </div>
-                        </li>
-                        @end
-                    </ul>
+                  </div>
                 </div>
-            </div>
-        </div>
-        
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-            <div class="bg-white rounded-xl shadow-md overflow-hidden">
-                <div class="px-6 py-4 border-b border-gray-200">
-                    <h2 class="text-lg font-medium text-gray-800">Service Tasks</h2>
-                </div>
-                <div class="p-6">
-                    <ul>
-                        @each(service in vehicle.services)
-                        <li class="py-3 flex items-center">
-                            <div
-                                class="flex-shrink-0 h-8 w-8 rounded-full {{vehicle.service_status==='Status 4'?'bg-green-200':'bg-blue-200'}} flex items-center justify-center mr-3">
-                                <i class="{{ vehicle.service_status==='Status 4'? 'fas fa-check text-green-600 text-sm' :'text-sm fas fa-cog text-blue-600 animate-spin'}}"></i>
-                            </div>
-                            <div class="min-w-0">
-                                <p class="text-sm font-medium text-gray-800">{{service}}</p>
-                            </div>
-                        </li>
-                        @end
-                    </ul>
-                </div>
-            </div>
-            <div class="bg-white rounded-xl shadow-md overflow-hidden">
-                <div class="px-6 py-4 border-b border-gray-200">
-                    <h2 class="text-lg font-medium text-gray-800">Service Notes</h2>
-                </div>
-                <div class="p-6">
-                    <div class="space-y-4">
-                            <div class="flex">
-                                <div class="flex-shrink-0 mr-3">
-                                    <div class="h-8 w-8 rounded-full bg-gray-100 flex items-center justify-center">
-                                        <i class="fas fa-user text-gray-500 text-sm"></i>
-                                    </div>
-                                </div>
-                                <div class="bg-gray-50 rounded-lg px-4 py-3 flex-1">
-                                    <div class="flex items-center justify-between">
-                                        <span class="text-xs font-semibold text-gray-500">Your Note • {{vehicle.arrived_time.split(',')[0]}}</span>
-                                    </div>
-                                    <p class="text-sm text-gray-800 mt-1">{{vehicle.service_notes}}</p>
-                                </div>
-                            </div>
-                        </div>
+                <div class="min-w-0 flex-1 pt-2">
+                  <div class="flex justify-between">
+                    <div>
+                      <p class="text-sm font-medium text-gray-800">{{item.label}}</p>
+                      <p class="text-sm text-gray-500">{{item.value}} </p>
                     </div>
+                  </div>
                 </div>
-            </div>
-
-            <div class="bg-white rounded-xl shadow-md overflow-hidden">
-                <div class="px-6 py-4 border-b border-gray-200">
-                    <h2 class="text-lg font-medium text-gray-800">Estimated Completion</h2>
-                </div>
-                <div class="p-6">
-                    <div class="flex flex-col md:flex-row md:items-center md:justify-between">
-                        <div>
-                            <div class="flex items-center">
-                                <i class="fas fa-calendar-day text-red-500 text-xl mr-3"></i>
-                                <div>
-                                    <p class="text-sm text-gray-500">Expected Completion </p>
-                                    <p class="text-lg font-bold text-gray-800">{{vehicle.estimated_completion}}</p>
-                                </div>
-                            </div>
-                            <div class="mt-4">
-                                <p class="text-sm text-gray-600">We'll notify you when your vehicle is ready for pickup.
-                                    You can also check back here for updates.</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+              </div>
+            </li>
             @end
-    </main>
-    <footer class="bg-white border-t border-gray-200 mt-12">
-        <div class="max-w-7xl mx-auto px-4 py-6 sm:px-6 lg:px-8">
-            <div class="flex flex-col md:flex-row justify-between items-center">
-                <div class="flex items-center">
-                    <i class="fas fa-motorcycle text-red-600 text-xl mr-2"></i>
-                    <span class="text-sm font-medium text-gray-800">Royal Enfield Service Tracker</span>
-                </div>
-
-            </div>
+          </ul>
         </div>
-    </footer>
+      </div>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+      <div class="bg-white rounded-xl shadow-md overflow-hidden">
+        <div class="px-6 py-4 border-b border-gray-200">
+          <h2 class="text-lg font-medium text-gray-800 service_task"
+            iscompleted="{{vehicle.service_status==='Status 4'? true:false}}">Service Tasks</h2>
+        </div>
+        <div class="p-6">
+          @if(!vehicle.services)
+          @!component('components/messageComponent',{text:'Service tasks'})
+          @end
+          <ul>
+            @each(service in vehicle.services)
+            <li class="py-3 flex items-center">
+              <div
+                class="flex-shrink-0 h-8 w-8 rounded-full {{vehicle.service_status==='Status 4'?'bg-green-200':'bg-blue-200'}} flex items-center justify-center mr-3">
+                <i
+                  class="{{ vehicle.service_status==='Status 4'? 'fas fa-check text-green-600 text-sm' :'text-sm fas fa-cog text-blue-600 animate-spin'}}"></i>
+              </div>
+              <div class="min-w-0">
+                <p class="text-sm font-medium text-gray-800">{{service}}</p>
+              </div>
+            </li>
+            @end
+          </ul>
+        </div>
+      </div>
+      <div class="bg-white rounded-xl shadow-md overflow-hidden">
+        <div class="px-6 py-4 border-b border-gray-200">
+          <h2 class="text-lg font-medium text-gray-800">Service Notes</h2>
+        </div>
+        <div class="p-6">
+          <div class="space-y-4">
+            <div class="flex">
+              @if(!vehicle.service_notes)
+              @!component('components/messageComponent', {text:'Service Notes'})
+              @else
+              <div class="flex-shrink-0 mr-3">
+                <div class="h-8 w-8 rounded-full bg-gray-100 flex items-center justify-center">
+                  <i class="fas fa-user text-gray-500 text-sm"></i>
+                </div>
+              </div>
+              <div class="bg-gray-50 rounded-lg px-4 py-3 flex-1">
+                <div class="flex items-center justify-between">
+                  <span class="text-xs font-semibold text-gray-500">Your Note •
+                    {{vehicle.arrived_time.split(',')[0]}}</span>
+                </div>
+                <p class="text-sm text-gray-800 mt-1">{{vehicle.service_notes}}</p>
+              </div>
+              @end
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="bg-white rounded-xl shadow-md overflow-hidden">
+      <div class="px-6 py-4 border-b border-gray-200">
+        <h2 class="text-lg font-medium text-gray-800">Estimated Completion</h2>
+      </div>
+      <div class="p-6">
+        <div class="flex flex-col md:flex-row md:items-center md:justify-between">
+          <div>
+            <div class="flex items-center">
+              <i class="fas fa-calendar-day text-red-500 text-xl mr-3"></i>
+              <div>
+                <p class="text-sm text-gray-500">Expected Completion </p>
+                <p class="text-lg font-bold text-gray-800">{{vehicle.estimated_completion}}</p>
+              </div>
+            </div>
+            <div class="mt-4">
+              <p class="text-sm text-gray-600">We'll notify you when your vehicle is ready for pickup.
+                You can also check back here for updates.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
     @end
+  </main>
+  <footer class="bg-white border-t border-gray-200 mt-12">
+    <div class="max-w-7xl mx-auto px-4 py-6 sm:px-6 lg:px-8">
+      <div class="flex flex-col md:flex-row justify-between items-center">
+        <div class="flex items-center">
+          <i class="fas fa-motorcycle text-red-600 text-xl mr-2"></i>
+          <span class="text-sm font-medium text-gray-800">Royal Enfield Service Tracker</span>
+        </div>
+
+      </div>
+    </div>
+  </footer>
+  @end

@@ -57,8 +57,3 @@ router.group(() => {
   .as('customer')
 
 router.post('/login', [CustomerLoginsController, 'customer_login']).as('customer_login')
-
-//   router.get('/cdash', async ({ view}) => {
-//     // console.log(session.get('test'));
-//    return view.render('pages/customerdash')
-//  }).as('dashboard')

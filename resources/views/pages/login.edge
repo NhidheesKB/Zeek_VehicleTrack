@@ -1,4 +1,7 @@
 @layout.app({title:"RE Login"})
+@pushOnceTo('style')
+<link  rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+@end
 <body class="min-h-screen bg-gray-100 overflow-visible">
   <div class="min-h-screen flex">
     <div class="w-full lg:w-1/2 flex items-center justify-center p-8">
@@ -51,8 +54,10 @@
         </div>
       </div>
     </div>
-    <div class="hidden lg:flex lg:w-1/2 bg-cover bg-no-repeat bg-gray-100 bg-center"
-      style="background-image: url('/asset/img/re_logo.jpeg'); background-position-y:40%;">
+    <div class="hidden lg:flex lg:w-1/2 bg-cover bg-no-repeat bg-gray-100 bg-center adminLogin">
     </div>
   </div>
+@pushOnceTo('script')
+<script nonce="{{cspNonce}}" src="/asset/js/login.js"></script>
+@end
 @end

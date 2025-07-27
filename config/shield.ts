@@ -6,8 +6,23 @@ const shieldConfig = defineConfig({
    * to learn more
    */
   csp: {
-    enabled: false,
-    directives: {},
+    enabled: true,
+    directives: {
+      defaultSrc: ["'self'"],
+      styleSrc: [
+        "'self'",
+        '@nonce',
+        'https://cdnjs.cloudflare.com',
+        'https://cdn.jsdelivr.net',
+      ],
+      scriptSrc: ["'self'", '@nonce', 'https://cdn.jsdelivr.net'],
+      fontSrc: ["'self'", 'https://cdnjs.cloudflare.com'],
+      imgSrc: ["'self'", 'data:', 'blob:'],
+      connectSrc: ["'self'"],
+      objectSrc: ["'none'"],
+      baseUri: ["'self'"],
+      formAction: ["'self'"],
+    },
     reportOnly: false,
   },
 
@@ -17,7 +32,7 @@ const shieldConfig = defineConfig({
    */
   csrf: {
     enabled: true,
-    exceptRoutes: (ctx)=> ctx.request.url().includes("/api"),
+    exceptRoutes: (ctx) => ctx.request.url().includes('/api'),
     enableXsrfCookie: false,
     methods: ['POST', 'PUT', 'PATCH', 'DELETE'],
   },

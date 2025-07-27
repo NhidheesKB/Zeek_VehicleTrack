@@ -1,5 +1,4 @@
 @layout.app({title:'Welcome to RE'})
-
 <body class="bg-gray-100">
   <div class="min-h-screen flex items-center justify-center p-4">
     <div class="w-full max-w-4xl bg-white shadow-lg rounded-lg overflow-hidden">
@@ -32,8 +31,7 @@
             </button>
           </form>
         </div>
-        <div class="hidden lg:flex lg:w-1/2 bg-indigo-100 flex-col items-center justify-center p-8"
-          style="background-image: url('/asset/img/customer_login.png');  background-size: 100%; background-repeat: no-repeat; background-position: center;">
+        <div class="hidden lg:flex lg:w-1/2 bg-indigo-100 flex-col items-center justify-center p-8 customerLogin">
           <div class="mt-8 w-full h-48 bg-contain bg-center bg-no-repeat">
           </div>
         </div>
@@ -41,7 +39,7 @@
     </div>
   </div>
   @flashMessage('cuserror')
-  <script>
+  <script nonce="{{cspNonce}}">
     alert('{{ $message }}');
   </script>
   @end

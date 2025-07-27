@@ -1,5 +1,8 @@
 @layout.app({title:"New Service Entry"})
-
+@pushOnceTo('style')
+<link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+<script nonce="{{cspNonce}}" src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+@end
 <body class="bg-gray-50 font-sans">
   <div class="min-h-screen">
     <header class="bg-white shadow">
@@ -82,8 +85,7 @@
 
               <div class="sm:col-span-3">
                 <label for="service-type" class="block text-sm font-medium text-gray-700">Service Type</label>
-                <div class="Service_box"
-                  style="display: flex, flex-warp:warp, align-items: center, gap: 5px,border: 2px solid #ccc, border-radius: 8px,padding: 6px,min-height: 50px ">
+                <div class="Service_box">
 
                   <select multiple name="services" data-hs-select='{
   "placeholder": "Select option...",
@@ -115,7 +117,7 @@
               </div>  --}}
 
               <div class="sm:col-span-3">
-                <label for="estimated-completion" class="block text-sm font-medium text-gray-700">Estimated
+                <label for="time-picker" class="block text-sm font-medium text-gray-700">Estimated
                   Completion</label>
                 <input type="text" name="estimated_completion" id="time-picker" placeholder="Select Time"
                   class="mt-1 border-2 pl-3  block w-full h-10 shadow-sm sm:text-sm text-black  border-gray-300  rounded-md">
@@ -125,7 +127,7 @@
                 <label for="assigned-technician" class="block text-sm font-medium text-gray-700">Assigned
                   Technician</label>
 
-                <select name="assigned_technician" multiple data-hs-select='{
+                <select name="assigned_technician" id="assigned-technician" multiple data-hs-select='{
   "placeholder": "Select Technician",
   "toggleTag": "<button type=\"button\" aria-expanded=\"false\" class=\"border-2 border-gray-300\"></button>",
   "toggleClasses": "hs-select-disabled:pointer-events-none hs-select-disabled:opacity-50 relative py-3 ps-4 pe-9 flex gap-x-2 text-nowrap w-full cursor-pointer bg-white border border-gray-200 rounded-lg text-start text-sm focus:outline-none focus:ring-2 focus:ring-blue-500",
@@ -145,7 +147,7 @@
               <div class="sm:col-span-6">
                 <label for="service-notes" class="block text-sm font-medium relative top-6 text-gray-700">Service Notes</label>
                   <select id="language_select"
-                    class="block px-2 h-8 relative start-21  bottom-0 w-40 text-sm text-gray-900 font-medium border-0  bg-transparent  border-gray-300  focus:outline-none focus:ring-0 focus:border-gray-400 ">
+                    class="block px-2 h-8 relative start-21  bottom-0 w-40 text-sm text-gray-900 font-medium border-0  bg-transparent  border-gray-300  focus:outline-none  focus:ring- focus:border-gray-400 ">
                     <option selected>Choose a language</option>
                     @each(item in
                     [{label:'English',value:'en'},{label:'Tamil',value:'ta'},{label:'Hindi',value:'hi'},{label:'Malayalam',value:'ml'},{label:'Kannada',value:'kn'},{label:'Telugu',value:'te'}])
@@ -200,4 +202,8 @@
       </div>
     </main>
   </div>
-  @end
+@pushOnceTo('script')
+<script nonce="{{cspNonce}}" src="/asset/vendor/preline/dist/preline.js"></script>
+<script nonce="{{cspNonce}}" src="/asset/js/app.js"></script>
+@end
+@end

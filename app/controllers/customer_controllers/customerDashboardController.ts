@@ -2,7 +2,7 @@ import UserDetail from '#models/user_detail'
 import type { HttpContext } from '@adonisjs/core/http'
 import { customer_data } from '#service/customerData'
 export default class CustomerDashboardsController {
-  public async customer_dashboard({ session, view }: HttpContext) {
+  public async customer_dashboard({ session, view,response }: HttpContext) {
     const vehicle_no = session.get('vehicle_no')
     try {
       const join_data = await UserDetail.query()
@@ -21,6 +21,7 @@ export default class CustomerDashboardsController {
 
     } catch (error) {
       console.log('error', error)
+      return response.redirect().toRoute('customer.login')
     }
   }
 }

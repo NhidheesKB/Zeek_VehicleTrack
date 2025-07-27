@@ -19,7 +19,6 @@ export default class VehicleStatusesController {
         .whereBetween('vehicle_entries.created_at', [today, tomorrow])
         .orderBy('vehicle_entries.id', 'desc')
       const today_data = joindata.map(todayvehicle)
-      // console.log(today_data)
       let today_count = 0,
         today_pending_count = 0,
         today_completed = 0

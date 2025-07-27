@@ -1,4 +1,5 @@
 @layout.app({title:"Vehicle Service Monitoring"})
+
 <body class="bg-gray-50 font-sans">
   <div class="min-h-screen">
     <header class="bg-white shadow">
@@ -51,7 +52,6 @@
                 </tr>
               </thead>
               <tbody class="bg-white divide-y divide-gray-200">
-                <!-- Rows -->
                 @each(value in values)
                 <form method="POST" action="{{route('admin.addvehicledetails')}}">
                   {{ csrfField() }}
@@ -88,7 +88,7 @@
                     </td>
                     <td class="px-6 py-4 whitespace-nowrap">
                       <div class="w-full bg-gray-200 rounded-full h-2.5">
-                        <div class="bg-blue-600 h-2.5 rounded-full loading-bar" style="width: {{value.progress}}%">
+                        <div class="bg-blue-600 h-2.5 rounded-full loading-bar" data-progress="{{value.progress}}">
                         </div>
                       </div>
                     </td>
@@ -112,4 +112,16 @@
       </div>
     </main>
   </div>
-@end
+  @pushOnceTo('script')
+  <script nonce="{{cspNonce}}">
+    const bar = document.querySelectorAll('.loading-bar')
+    if (bar != null) {
+      bar.forEach(bar => {
+        const progress = bar.getAttribute('data-progress')
+        bar.style.width = progress + '%'
+      })
+    }
+  </script>
+
+  @end
+  @end
