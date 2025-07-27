@@ -10,6 +10,7 @@ export default defineConfig({
        */
       entrypoints: ['resources/css/app.css', 'resources/js/app.js'],
 
+
       /**
        * Paths to watch and reload the browser on file change
        */
