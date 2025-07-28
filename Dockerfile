@@ -1,7 +1,7 @@
 FROM node:23-bullseye-slim
 
 WORKDIR /app
-COPY . ./
+COPY . /app
 RUN npm install && npm run build
 # COPY .env.production.local /app/build/.env
 COPY cret /app/build
