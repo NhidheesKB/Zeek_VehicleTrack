@@ -15,7 +15,7 @@ RUN groupadd -g 10014 choreo && \
     mkdir -p /home/choreouser/.npm/_logs && \
     chmod -R 755 /home/choreouser/.npm && \
     chown -R choreouser:choreo /home/choreouser
-
+RUN chown -R choreouser:choreo /app
 USER 10014
 
 EXPOSE 3333
