@@ -5,7 +5,7 @@
     "outDir": "./build",
     "removeComments": true,
     "paths": {
-      "#service/*":["./service"]
+      "#service/*":["./service/*"]
     }
   }
 }

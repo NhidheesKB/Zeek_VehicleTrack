@@ -1,10 +1,16 @@
 import { defineConfig } from 'vite'
 import adonisjs from '@adonisjs/vite/client'
+import path from 'path'
 
 export default defineConfig({
   server:{
     allowedHosts:['vehiicletrack.onrender.com']
 
+  },
+  resolve:{
+    alias:{
+      '#service': path.resolve(__dirname, 'service'),
+    }
   },
   plugins: [
     adonisjs({
