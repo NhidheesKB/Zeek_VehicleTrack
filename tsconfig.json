@@ -3,6 +3,9 @@
   "compilerOptions": {
     "rootDir": "./",
     "outDir": "./build",
-    "removeComments": true
+    "removeComments": true,
+    "paths": {
+      "#service/*":["./service"]
+    }
   }
 }
