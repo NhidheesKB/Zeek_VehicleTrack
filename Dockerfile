@@ -3,7 +3,7 @@ FROM node:23-bullseye-slim
 COPY . /app
 WORKDIR /app
 RUN npm install && npm run build
-# COPY .env.production.local /app/build/.env
+COPY .env.production.local /app/build/.env
 COPY cret /app/build
 COPY cret/ca.pem  /app/build/cret
 RUN mkdir -p /app/build/tmp/sessions && \
