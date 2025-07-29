@@ -3,7 +3,7 @@ import adonisjs from '@adonisjs/vite/client'
 
 export default defineConfig({
   server:{
-    allowedHosts:true
+    allowedHosts:['https://vehiicletrack.onrender.com/']
 
   },
   plugins: [
