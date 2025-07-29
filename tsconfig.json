@@ -4,8 +4,9 @@
     "rootDir": "./",
     "outDir": "./build",
     "removeComments": true,
+    "baseUrl": ".",
     "paths": {
-      "#service/*":["./service/*"]
+      "#service/*":["service/*"]
     }
   }
 }
