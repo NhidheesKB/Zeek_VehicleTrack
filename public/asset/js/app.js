@@ -49,7 +49,7 @@ async function sendaudio(audioblob) {
 
     if (response.ok) {
       const res = await response.json()
-      service_notes.innerText = res.message
+      service_notes.value = res.message
       loading.classList.add('hidden')
       checkbox_label.style.removeProperty('display')
     }
