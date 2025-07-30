@@ -9,5 +9,5 @@
       "#service/*":["service/*"]
     },
   },
-  "include": ["app","service"]
+  // "include": ["app","service"]
 }
