@@ -8,7 +8,7 @@ export interface Vechicle_interface{
     service_status_style:string,
     estimated_completion:string,
 }
-const todayvehicles=(todayvehicle:Vechicle_interface)=>{
+export const todayvehicles=(todayvehicle:Vechicle_interface)=>{
     return{
         label:todayvehicle.model,
         value:todayvehicle.vehicle_no,
@@ -21,4 +21,3 @@ const todayvehicles=(todayvehicle:Vechicle_interface)=>{
         estimated_completion:todayvehicle.estimated_completion
     }
 }
-export default todayvehicles
