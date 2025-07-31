@@ -5,9 +5,6 @@
     "outDir": "./build",
     "removeComments": true,
     "baseUrl": ".",
-    "paths": {
-      "#service/*":["service/*"]
-    },
   },
   // "include": ["app","service"]
 }
