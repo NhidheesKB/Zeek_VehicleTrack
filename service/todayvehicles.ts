@@ -8,7 +8,7 @@ export interface Vechicle_interface{
     service_status_style:string,
     estimated_completion:string,
 }
-export const todayvehicles=(todayvehicle:Vechicle_interface)=>{
+export const todayVehicles=(todayvehicle:Vechicle_interface)=>{
     return{
         label:todayvehicle.model,
         value:todayvehicle.vehicle_no,
