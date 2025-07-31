@@ -4,9 +4,6 @@
   "private": true,
   "type": "module",
   "license": "UNLICENSED",
-  "import":{
-    "#service/":"./build/service"
-  },
   "scripts": {
     "start": "node bin/server.js",
     "build": "node ace build --ignore-ts-errors ",

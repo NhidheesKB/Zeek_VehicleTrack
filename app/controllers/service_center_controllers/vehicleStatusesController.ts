@@ -1,7 +1,7 @@
 import type { HttpContext } from '@adonisjs/core/http'
 import { DateTime } from 'luxon'
 import db from '@adonisjs/lucid/services/db'
-import { todayvehicles } from '#service/todayVehicles'
+import { todayvehicles } from '../../../service/todayVehicles.js'
 export default class VehicleStatusesController {
   public async vehicle_status({ view }:HttpContext) {
     const today = DateTime.local().startOf('day').toSQL()
