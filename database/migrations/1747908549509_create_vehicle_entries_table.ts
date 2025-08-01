@@ -12,7 +12,7 @@ export default class extends BaseSchema {
       table.string('service_status',15)
       table.string('estimated_completion',10)
       table.string('assigned_technician',50)
-      table.string('service_notes',100)
+      table.text('service_notes')
       table.timestamp('created_at')
       table.timestamp('updated_at')
     })

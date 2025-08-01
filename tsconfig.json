@@ -6,5 +6,4 @@
     "removeComments": true,
     "baseUrl": ".",
   },
-  // "include": ["app","service"]
 }

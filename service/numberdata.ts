@@ -5,7 +5,7 @@ import env from "#start/env"
         task_id:env.get('TASK_ID'),
         group_id:env.get('GROUP_ID'),
         data:{
-            rc_number:lastePlate
+            rc_number:lastePlate.toUpperCase()
         }
     }
 }

@@ -7,22 +7,26 @@ const shieldConfig = defineConfig({
    */
   csp: {
     enabled: true,
+
     directives: {
       defaultSrc: ["'self'"],
       styleSrc: [
         "'self'",
         '@nonce',
+        'unsafe-inline',
         'https://cdnjs.cloudflare.com',
         'https://cdn.jsdelivr.net',
       ],
-      scriptSrc: ["'self'", '@nonce', 'https://cdn.jsdelivr.net'],
+      scriptSrc: ["'self'", '@nonce', 'https://cdn.jsdelivr.net','unsafe-inline','strict-dynamic'],
       fontSrc: ["'self'", 'https://cdnjs.cloudflare.com'],
       imgSrc: ["'self'", 'data:', 'blob:'],
       connectSrc: ["'self'"],
       objectSrc: ["'none'"],
       baseUri: ["'self'"],
       formAction: ["'self'"],
+
     },
+
     reportOnly: false,
   },
 

@@ -9,7 +9,7 @@ import UserDetail from '#models/user_detail'
 import VehicleEntry from '#models/vehicle_entry'
 export default class AutomaticEntriesController {
   public async platenum({ request, response }: HttpContext) {
-    const { platenumber }: any = request.body()
+    const { platenumber } = request.body()
     console.log(`plate numberis ${platenumber}`)
     if (!platenumber) {
       return response.status(404).json({ sucess: false, message: 'Then number is not detected' })
